@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { latLng, tileLayer } from 'leaflet';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,13 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'leaflet-tour-angular';
+
+  options = {
+    layers: [
+      tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '...' })
+    ],
+    zoom: 12,
+    center: latLng(45.7640, 4.8357)
+  };
+
 }
