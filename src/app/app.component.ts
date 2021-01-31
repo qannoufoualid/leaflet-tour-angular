@@ -1,5 +1,6 @@
+import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { latLng, marker, tileLayer, circle, Map } from 'leaflet';
+import { latLng, marker, tileLayer, circle, Map, geoJSON } from 'leaflet';
 
 @Component({
   selector: 'app-root',
@@ -8,7 +9,6 @@ import { latLng, marker, tileLayer, circle, Map } from 'leaflet';
 })
 export class AppComponent {
 
-
   options = {
     layers: [
       tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '...' })
@@ -16,6 +16,9 @@ export class AppComponent {
     zoom: 12,
     center: latLng(45.7640, 4.8357)
   };
+
+  constructor(private http: HttpClient) {
+  }
 
   onMapReady(map: Map): void {
     // ajouter un marker
@@ -31,5 +34,10 @@ export class AppComponent {
       fillOpacity: 0.5,
       radius: 500
     }).addTo(map);
+
+    // Ajouter un geojson
+    this.http.get('assets/departements-auvergne-rhone-alpes.geojson').subscribe((json: any) => {
+      geoJSON(json).addTo(map);
+    });
   }
 }
